@@ -1,0 +1,58 @@
+#main_window
+{
+    background-color: black
+}
+
+#single_bubble
+{
+    background-color: #202020;
+    min-width: 280px;
+    min-height: 140px;
+    border-radius: 20px;
+}
+
+#multiple_bubble
+{
+    background-color: #202020;
+    min-width: 280px;
+    min-height: 140px;
+    border-radius: 20px;
+}
+
+#bubble_expanded
+{
+    background-color: #202020;
+    min-width: 280px;
+    min-height: 350px;
+    max-width: 280px;
+    max-height: 350px;
+    border-radius: 20px;
+}
+
+#bubble_heading
+{
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+#bubble_para
+{
+    color: white;
+    font-size: 15px;
+}
+
+#back_arrow
+{
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+#back_arrow:hover
+{
+    background-color: white;
+    color: #202020
+}
