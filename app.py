@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QFrame, QLabel
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QFrame, QLabel, QLineEdit
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -73,6 +73,29 @@ class App(QMainWindow):
         self.back_arrow_s.setTextFormat(Qt.RichText)
         self.back_arrow_s.setText("&#8592;")
         self.back_arrow_s.mousePressEvent = self.back_arrow_clicked
+        
+        self.single_bubble_heading = QLabel(self.single_bubble_expanded)
+        self.single_bubble_heading.setObjectName("bubble_heading")
+        self.single_bubble_heading.setText("Compress Image")
+        self.single_bubble_heading.move(75,12)
+        
+        self.single_image_label = QLabel(self.single_bubble_expanded)
+        self.single_image_label.setObjectName("bubble_para")
+        self.single_image_label.setText("Choose Image")
+        self.single_image_label.move(30,65)
+        
+        self.image_path = QLineEdit(self.single_bubble_expanded)
+        self.image_path.setObjectName("text_path")
+        self.image_path.move(60,95)
+        
+        self.single_image_quality = QLabel(self.single_bubble_expanded)
+        self.single_image_quality.setObjectName("bubble_para")
+        self.single_image_quality.setText("Choose Quality")
+        self.single_image_quality.move(30,185)
+        
+        self.quality_path = QLineEdit(self.single_bubble_expanded)
+        self.quality_path.setObjectName("text_path")
+        self.quality_path.move(60,215)
          
         #Multiple Bubble Expanded
         
