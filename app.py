@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QFrame, QLabel, QLineEdit
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -88,14 +88,24 @@ class App(QMainWindow):
         self.image_path.setObjectName("text_path")
         self.image_path.move(60,95)
         
+        self.browse_button = QPushButton(self.single_bubble_expanded)
+        self.browse_button.setText("...")
+        self.browse_button.setObjectName("browse_button")
+        self.browse_button.move(210,93)
+        
         self.single_image_quality = QLabel(self.single_bubble_expanded)
         self.single_image_quality.setObjectName("bubble_para")
         self.single_image_quality.setText("Choose Quality")
         self.single_image_quality.move(30,185)
         
         self.quality_path = QLineEdit(self.single_bubble_expanded)
-        self.quality_path.setObjectName("text_path")
+        self.quality_path.setObjectName("text_path_quality")
         self.quality_path.move(60,215)
+        
+        self.compress_button = QPushButton(self.single_bubble_expanded)
+        self.compress_button.setText("Compress")
+        self.compress_button.setObjectName("compress_button")
+        self.compress_button.move(100,280)
          
         #Multiple Bubble Expanded
         
