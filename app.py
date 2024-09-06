@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton, QComboBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -101,6 +101,14 @@ class App(QMainWindow):
         self.quality_path = QLineEdit(self.single_bubble_expanded)
         self.quality_path.setObjectName("text_path_quality")
         self.quality_path.move(60,215)
+        
+        self.quality_combo = QComboBox(self.single_bubble_expanded)
+        self.quality_combo.setObjectName("quality_combo")
+        self.quality_combo.addItem("High")
+        self.quality_combo.addItem("Medium")
+        self.quality_combo.addItem("Low")
+        self.quality_combo.move(170,214)
+        self.quality_combo.resize(70,26)
         
         self.compress_button = QPushButton(self.single_bubble_expanded)
         self.compress_button.setText("Compress")

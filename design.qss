@@ -95,3 +95,8 @@
     background-color: white;
     color: #202020;
 }
+
+#quality_combo
+{
+    color: #202020;
+}
