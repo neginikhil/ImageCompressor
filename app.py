@@ -123,11 +123,66 @@ class App(QMainWindow):
         self.multiple_bubble_expanded.setVisible(False)
         
         self.back_arrow_m = QLabel(self.multiple_bubble_expanded)
-        self.back_arrow_m.move(30, 0)
+        self.back_arrow_m.move(10, 0)
         self.back_arrow_m.setObjectName("back_arrow")
         self.back_arrow_m.setTextFormat(Qt.RichText)
         self.back_arrow_m.setText("&#8592;")
         self.back_arrow_m.mousePressEvent = self.back_arrow_clicked
+        
+        self.multiple_bubble_heading = QLabel(self.multiple_bubble_expanded)
+        self.multiple_bubble_heading.setObjectName("bubble_heading")
+        self.multiple_bubble_heading.setText("Compress Multiple Images")
+        self.multiple_bubble_heading.move(55,12)
+        
+        self.multiple_image_label = QLabel(self.multiple_bubble_expanded)
+        self.multiple_image_label.setObjectName("bubble_para")
+        self.multiple_image_label.setText("Choose Image")
+        self.multiple_image_label.move(30,65)
+        
+        self.source_path = QLineEdit(self.multiple_bubble_expanded)
+        self.source_path.setObjectName("text_path")
+        self.source_path.move(60,95)
+        
+        self.browse_src_button = QPushButton(self.multiple_bubble_expanded)
+        self.browse_src_button.setText("...")
+        self.browse_src_button.setObjectName("browse_button")
+        self.browse_src_button.move(210,93)
+        
+        self.multiple_dest_label = QLabel(self.multiple_bubble_expanded)
+        self.multiple_dest_label.setObjectName("bubble_para")
+        self.multiple_dest_label.setText("Choose Destination Directory")
+        self.multiple_dest_label.move(30,134)
+        
+        self.destination_path = QLineEdit(self.multiple_bubble_expanded)
+        self.destination_path.setObjectName("text_path")
+        self.destination_path.move(60,165)
+        
+        self.browse_dest_button = QPushButton(self.multiple_bubble_expanded)
+        self.browse_dest_button.setText("...")
+        self.browse_dest_button.setObjectName("browse_button")
+        self.browse_dest_button.move(210,163)
+        
+        self.multiple_image_quality = QLabel(self.multiple_bubble_expanded)
+        self.multiple_image_quality.setObjectName("bubble_para")
+        self.multiple_image_quality.setText("Choose Quality")
+        self.multiple_image_quality.move(30,205)
+        
+        self.dir_quality_path = QLineEdit(self.multiple_bubble_expanded)
+        self.dir_quality_path.setObjectName("text_path_quality")
+        self.dir_quality_path.move(60,235)
+        
+        self.dir_quality_combo = QComboBox(self.multiple_bubble_expanded)
+        self.dir_quality_combo.setObjectName("quality_combo")
+        self.dir_quality_combo.addItem("High")
+        self.dir_quality_combo.addItem("Medium")
+        self.dir_quality_combo.addItem("Low")
+        self.dir_quality_combo.move(170,234)
+        self.dir_quality_combo.resize(70,26)
+        
+        self.multiple_compress_button = QPushButton(self.multiple_bubble_expanded)
+        self.multiple_compress_button.setText("Compress")
+        self.multiple_compress_button.setObjectName("compress_button")
+        self.multiple_compress_button.move(100,280)
         
         #----------------End----------------------
         
