@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton, QComboBox
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton, QComboBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -91,6 +91,7 @@ class App(QMainWindow):
         self.browse_button = QPushButton(self.single_bubble_expanded)
         self.browse_button.setText("...")
         self.browse_button.setObjectName("browse_button")
+        self.browse_button.clicked.connect(self.select_file)
         self.browse_button.move(210,93)
         
         self.single_image_quality = QLabel(self.single_bubble_expanded)
@@ -189,6 +190,13 @@ class App(QMainWindow):
         self.show()
         
     #----------------Functions----------------
+    
+    def select_file(self):
+        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png)")
+        if fileName:
+            print(fileName)
+            self.image_path.setText(fileName)
+    
     
     def back_arrow_clicked(self, event):
         self.single_bubble.setVisible(True)
