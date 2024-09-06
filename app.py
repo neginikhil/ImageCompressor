@@ -2,6 +2,8 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton, QComboBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
+import PIL
+from PIL import Image
 
 class App(QMainWindow):
 
@@ -12,6 +14,7 @@ class App(QMainWindow):
         self.top = 200
         self.width = 500
         self.height = 700
+        self.image_width = 0
         self.setFixedSize(self.width, self.height)
         self.setObjectName("main_window")
         with open("design.qss", "r") as f:
@@ -108,6 +111,7 @@ class App(QMainWindow):
         self.quality_combo.addItem("High")
         self.quality_combo.addItem("Medium")
         self.quality_combo.addItem("Low")
+        self.quality_combo.currentIndexChanged.connect(self.quality_current_value)
         self.quality_combo.move(170,214)
         self.quality_combo.resize(70,26)
         
@@ -179,8 +183,9 @@ class App(QMainWindow):
         self.dir_quality_combo.addItem("High")
         self.dir_quality_combo.addItem("Medium")
         self.dir_quality_combo.addItem("Low")
+        self.dir_quality_combo.currentIndexChanged.connect(self.quality_current_value)
         self.dir_quality_combo.move(170,234)
-        self.dir_quality_combo.resize(70,26)
+        self.dir_quality_combo.resize(70,26) 
         
         self.multiple_compress_button = QPushButton(self.multiple_bubble_expanded)
         self.multiple_compress_button.setText("Compress")
@@ -192,12 +197,15 @@ class App(QMainWindow):
         self.show()
         
     #----------------Functions----------------
-    
+            
     def select_file(self):
         fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png)")
         if fileName:
             print(fileName)
             self.image_path.setText(fileName)
+            img = Image.open(fileName)
+            self.image_width = img.width
+            self.quality_path.setText(str(self.image_width))
     
     def select_folder(self):
         selected_directory = QFileDialog.getExistingDirectory(self, "Select Deirectory")
@@ -207,6 +215,16 @@ class App(QMainWindow):
         else:
             self.destination_path.setText(selected_directory)
         
+    
+    def quality_current_value(self):
+        if self.quality_combo.currentText() == "High":
+            self.quality_path.setText(str(self.image_width))
+            
+        if self.quality_combo.currentText() == "Medium":
+            self.quality_path.setText(str(int(self.image_width/2)))
+            
+        if self.quality_combo.currentText() == "Low":
+            self.quality_path.setText(str(int(self.image_width/4)))
     
     def back_arrow_clicked(self, event):
         self.single_bubble.setVisible(True)
