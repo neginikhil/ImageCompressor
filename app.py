@@ -151,7 +151,7 @@ class App(QMainWindow):
         self.browse_src_button = QPushButton(self.multiple_bubble_expanded)
         self.browse_src_button.setText("...")
         self.browse_src_button.setObjectName("browse_button")
-        self.browse_src_button.clicked.connect(self.select_folder)
+        self.browse_src_button.clicked.connect(self.select_folder_src)
         self.browse_src_button.move(210,93)
         
         self.multiple_dest_label = QLabel(self.multiple_bubble_expanded)
@@ -166,7 +166,7 @@ class App(QMainWindow):
         self.browse_dest_button = QPushButton(self.multiple_bubble_expanded)
         self.browse_dest_button.setText("...")
         self.browse_dest_button.setObjectName("browse_button")
-        self.browse_dest_button.clicked.connect(self.select_folder)
+        self.browse_dest_button.clicked.connect(self.select_folder_dest)
         self.browse_dest_button.move(210,163)
         
         self.multiple_image_quality = QLabel(self.multiple_bubble_expanded)
@@ -207,15 +207,14 @@ class App(QMainWindow):
             self.image_width = img.width
             self.quality_path.setText(str(self.image_width))
     
-    def select_folder(self):
+    def select_folder_src(self):
         selected_directory = QFileDialog.getExistingDirectory(self, "Select Deirectory")
+        self.source_path.setText(selected_directory)
         
-        if '1D0' in str(self.sender()):
-            self.source_path.setText(selected_directory)
-        else:
-            self.destination_path.setText(selected_directory)
+    def select_folder_dest(self):
+        selected_directory = QFileDialog.getExistingDirectory(self, "Select Deirectory")
+        self.destination_path.setText(selected_directory)
         
-    
     def quality_current_value(self):
         if self.quality_combo.currentText() == "High":
             self.quality_path.setText(str(self.image_width))
