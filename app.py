@@ -4,7 +4,8 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import PIL
 from PIL import Image
-import os
+import os,sys
+os.chdir(sys._MEIPASS)
 
 class App(QMainWindow):
 
