@@ -1,6 +1,6 @@
 #main_window
 {
-    background-color: black
+    background-color: black;
 }
 
 #single_bubble
@@ -54,28 +54,28 @@
 #back_arrow:hover
 {
     background-color: white;
-    color: #202020
+    color: #202020;
 }
 
 #text_path
 {
     max-width: 140px;
     min-width: 140px;
-    color: #202020
+    color: #202020;
 }
 
 #text_path_quality
 {
     max-width: 100px;
     min-width: 100px;
-    color: #202020
+    color: #202020;
 }
 
 #browse_button
 {
     max-width: 25px;
     min-width: 25px;
-    color: #202020
+    color: #202020;
 }
 
 #compress_button
@@ -104,4 +104,6 @@
 #set_status
 {
     color: white;
+    font-size: 16px;  
+    text-align: center;  
 }

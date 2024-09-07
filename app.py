@@ -295,13 +295,14 @@ class App(QMainWindow):
         src_directory = self.source_path.text()
         files = os.listdir(src_directory)
         dest_directory = self.destination_path.text()
-        i=0
+        total_images = len(files)
+        i = 0
+        
         for file in files:
-            i+=1
             if file.lower().endswith(('.jpg', '.jpeg', '.png')):
-                
-                old_pic = src_directory + "/" + file
-                new_pic = dest_directory + "/" + file
+                i += 1
+                old_pic = os.path.join(src_directory, file)
+                new_pic = os.path.join(dest_directory, file)
                 
                 img = Image.open(old_pic)
                 self.image_width = img.width
@@ -309,15 +310,15 @@ class App(QMainWindow):
                 
                 self.dir_quality_current_value()  
                 
-                total_images = len(files)
-                images_done = i
-                percentage = int((images_done/total_images)*100)
                 self.compression_code(old_pic, new_pic, self.compress_width)
+                
+                percentage_done = int(i / total_images * 100)
+                self.statusBar.showMessage(f"Message : Compressed {percentage_done}%")
+                QApplication.processEvents()  
                 
             else:
                 continue  
-            
-        self.statusBar.showMessage("Message : Compressed " + str(percentage) + "%") 
+
         
     def compression_code(self, old_pic, new_pic, mywidth):
         try:
