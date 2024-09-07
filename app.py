@@ -4,6 +4,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import PIL
 from PIL import Image
+import os
 
 class App(QMainWindow):
 
@@ -15,6 +16,7 @@ class App(QMainWindow):
         self.width = 500
         self.height = 700
         self.image_width = 0
+        self.compress_width = 0
         self.setFixedSize(self.width, self.height)
         self.setObjectName("main_window")
         with open("design.qss", "r") as f:
@@ -118,6 +120,7 @@ class App(QMainWindow):
         self.compress_button = QPushButton(self.single_bubble_expanded)
         self.compress_button.setText("Compress")
         self.compress_button.setObjectName("compress_button")
+        self.compress_button.clicked.connect(self.resize_image)
         self.compress_button.move(100,280)
          
         #Multiple Bubble Expanded
@@ -205,11 +208,19 @@ class App(QMainWindow):
             self.image_path.setText(fileName)
             img = Image.open(fileName)
             self.image_width = img.width
+            self.compress_width = self.image_width
             self.quality_path.setText(str(self.image_width))
     
     def select_folder_src(self):
         selected_directory = QFileDialog.getExistingDirectory(self, "Select Deirectory")
         self.source_path.setText(selected_directory)
+        files = os.listdir(selected_directory)
+        first_pic = selected_directory + "/" + files[0]
+        
+        img = Image.open(first_pic)
+        self.image_width = img.width
+        self.compress_width = self.image_width
+        self.dir_quality_path.setText(str(self.image_width))
         
     def select_folder_dest(self):
         selected_directory = QFileDialog.getExistingDirectory(self, "Select Deirectory")
@@ -218,12 +229,27 @@ class App(QMainWindow):
     def quality_current_value(self):
         if self.quality_combo.currentText() == "High":
             self.quality_path.setText(str(self.image_width))
+            self.compress_width = self.image_width
             
         if self.quality_combo.currentText() == "Medium":
             self.quality_path.setText(str(int(self.image_width/2)))
+            self.compress_width = int(self.image_width/2)
             
         if self.quality_combo.currentText() == "Low":
             self.quality_path.setText(str(int(self.image_width/4)))
+            self.compress_width = int(self.image_width/4)
+
+        if self.quality_combo.currentText() == "High":
+            self.dir_quality_path.setText(str(self.image_width))
+            self.compress_width = self.image_width
+            
+        if self.quality_combo.currentText() == "Medium":
+            self.dir_quality_path.setText(str(int(self.image_width/2)))
+            self.compress_width = int(self.image_width/2)
+            
+        if self.quality_combo.currentText() == "Low":
+            self.dir_quality_path.setText(str(int(self.image_width/4)))
+            self.compress_width = int(self.image_width/4)
     
     def back_arrow_clicked(self, event):
         self.single_bubble.setVisible(True)
@@ -244,6 +270,26 @@ class App(QMainWindow):
         self.multiple_bubble.setVisible(False)
         self.single_bubble_expanded.setVisible(False)
         self.multiple_bubble_expanded.setVisible(True)
+        
+    def resize_image(self):
+        old_pic = self.image_path.text()
+        directories = self.image_path.text().split("/")
+        new_pic_name = "compressed(new).jpg"
+        new_pic = ""
+        for directory in directories[:-1]:
+            new_pic = new_pic + directory + "/"
+        new_pic += new_pic_name
+        print(new_pic)
+        self.compression_code(old_pic, new_pic)
+        print("Compressed")
+                
+    def compression_code(self, old_pic, new_pic):
+        img = Image.open(old_pic)
+        mywidth = self.compress_width
+        wpercent = (mywidth/float(img.size[0]))
+        hsize = int((float(img.size[1])*float(wpercent)))
+        img = img.resize((mywidth,hsize), PIL.Image.LANCZOS)
+        img.save(new_pic)
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)
