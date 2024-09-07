@@ -17,6 +17,8 @@ class App(QMainWindow):
         self.height = 700
         self.image_width = 0
         self.compress_width = 0
+        self.statusBar = self.statusBar()
+        self.statusBar.setObjectName("set_status")
         self.setFixedSize(self.width, self.height)
         self.setObjectName("main_window")
         with open("design.qss", "r") as f:
@@ -283,15 +285,18 @@ class App(QMainWindow):
             print(new_pic)
             
             self.compression_code(old_pic, new_pic)
-            print("Compressed")
+            self.statusBar.showMessage("Message : Compressed") 
                 
     def compression_code(self, old_pic, new_pic):
-        img = Image.open(old_pic)
-        mywidth = self.compress_width
-        wpercent = (mywidth/float(img.size[0]))
-        hsize = int((float(img.size[1])*float(wpercent)))
-        img = img.resize((mywidth,hsize), PIL.Image.LANCZOS)
-        img.save(new_pic)
+        try:
+            img = Image.open(old_pic)
+            mywidth = self.compress_width
+            wpercent = (mywidth/float(img.size[0]))
+            hsize = int((float(img.size[1])*float(wpercent)))
+            img = img.resize((mywidth,hsize), PIL.Image.LANCZOS)
+            img.save(new_pic)
+        except Exception as e:
+            self.statusBar.showMessage("Message : "+e) 
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -100,3 +100,8 @@
 {
     color: #202020;
 }
+
+#set_status
+{
+    color: white;
+}
