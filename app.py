@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton, QComboBox
+from PyQt5.QtWidgets import QApplication, QInputDialog, QFileDialog, QMainWindow, QFrame, QLabel, QLineEdit, QPushButton, QComboBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import PIL
@@ -274,14 +274,16 @@ class App(QMainWindow):
     def resize_image(self):
         old_pic = self.image_path.text()
         directories = self.image_path.text().split("/")
-        new_pic_name = "compressed(new).jpg"
-        new_pic = ""
-        for directory in directories[:-1]:
-            new_pic = new_pic + directory + "/"
-        new_pic += new_pic_name
-        print(new_pic)
-        self.compression_code(old_pic, new_pic)
-        print("Compressed")
+        new_pic_name, okPressed = QInputDialog.getText(self, "Save Image as", "Image Name:", QLineEdit.Normal, "")
+        
+        if okPressed and new_pic_name != '':
+            print(new_pic_name)
+            ext = old_pic.split('.')[-1].lower()  # Extract the extension from the old file
+            new_pic = "/".join(directories[:-1]) + "/" + new_pic_name + "." + ext
+            print(new_pic)
+            
+            self.compression_code(old_pic, new_pic)
+            print("Compressed")
                 
     def compression_code(self, old_pic, new_pic):
         img = Image.open(old_pic)
