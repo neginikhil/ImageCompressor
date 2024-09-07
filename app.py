@@ -188,13 +188,14 @@ class App(QMainWindow):
         self.dir_quality_combo.addItem("High")
         self.dir_quality_combo.addItem("Medium")
         self.dir_quality_combo.addItem("Low")
-        self.dir_quality_combo.currentIndexChanged.connect(self.quality_current_value)
+        self.dir_quality_combo.currentIndexChanged.connect(self.dir_quality_current_value)
         self.dir_quality_combo.move(170,234)
         self.dir_quality_combo.resize(70,26) 
         
         self.multiple_compress_button = QPushButton(self.multiple_bubble_expanded)
         self.multiple_compress_button.setText("Compress")
         self.multiple_compress_button.setObjectName("compress_button")
+        self.multiple_compress_button.clicked.connect(self.resize_dir)
         self.multiple_compress_button.move(100,280)
         
         #----------------End----------------------
@@ -214,7 +215,7 @@ class App(QMainWindow):
             self.quality_path.setText(str(self.image_width))
     
     def select_folder_src(self):
-        selected_directory = QFileDialog.getExistingDirectory(self, "Select Deirectory")
+        selected_directory = QFileDialog.getExistingDirectory(self, "Select Directory")
         self.source_path.setText(selected_directory)
         files = os.listdir(selected_directory)
         first_pic = selected_directory + "/" + files[0]
@@ -225,33 +226,36 @@ class App(QMainWindow):
         self.dir_quality_path.setText(str(self.image_width))
         
     def select_folder_dest(self):
-        selected_directory = QFileDialog.getExistingDirectory(self, "Select Deirectory")
+        selected_directory = QFileDialog.getExistingDirectory(self, "Select Directory")
         self.destination_path.setText(selected_directory)
         
     def quality_current_value(self):
+        # Handles quality change for single image compression
         if self.quality_combo.currentText() == "High":
             self.quality_path.setText(str(self.image_width))
             self.compress_width = self.image_width
             
-        if self.quality_combo.currentText() == "Medium":
-            self.quality_path.setText(str(int(self.image_width/2)))
-            self.compress_width = int(self.image_width/2)
+        elif self.quality_combo.currentText() == "Medium":
+            self.quality_path.setText(str(int(self.image_width / 2)))
+            self.compress_width = int(self.image_width / 2)
             
-        if self.quality_combo.currentText() == "Low":
-            self.quality_path.setText(str(int(self.image_width/4)))
-            self.compress_width = int(self.image_width/4)
+        elif self.quality_combo.currentText() == "Low":
+            self.quality_path.setText(str(int(self.image_width / 4)))
+            self.compress_width = int(self.image_width / 4)
 
-        if self.quality_combo.currentText() == "High":
+    def dir_quality_current_value(self):
+        # Handles quality change for multiple image compression
+        if self.dir_quality_combo.currentText() == "High":
             self.dir_quality_path.setText(str(self.image_width))
             self.compress_width = self.image_width
             
-        if self.quality_combo.currentText() == "Medium":
-            self.dir_quality_path.setText(str(int(self.image_width/2)))
-            self.compress_width = int(self.image_width/2)
+        elif self.dir_quality_combo.currentText() == "Medium":
+            self.dir_quality_path.setText(str(int(self.image_width / 2)))
+            self.compress_width = int(self.image_width / 2)
             
-        if self.quality_combo.currentText() == "Low":
-            self.dir_quality_path.setText(str(int(self.image_width/4)))
-            self.compress_width = int(self.image_width/4)
+        elif self.dir_quality_combo.currentText() == "Low":
+            self.dir_quality_path.setText(str(int(self.image_width / 4)))
+            self.compress_width = int(self.image_width / 4)
     
     def back_arrow_clicked(self, event):
         self.single_bubble.setVisible(True)
@@ -280,23 +284,50 @@ class App(QMainWindow):
         
         if okPressed and new_pic_name != '':
             print(new_pic_name)
-            ext = old_pic.split('.')[-1].lower()  # Extract the extension from the old file
+            ext = old_pic.split('.')[-1].lower() 
             new_pic = "/".join(directories[:-1]) + "/" + new_pic_name + "." + ext
             print(new_pic)
             
-            self.compression_code(old_pic, new_pic)
+            self.compression_code(old_pic, new_pic, self.compress_width)
             self.statusBar.showMessage("Message : Compressed") 
+    
+    def resize_dir(self):
+        src_directory = self.source_path.text()
+        files = os.listdir(src_directory)
+        dest_directory = self.destination_path.text()
+        i=0
+        for file in files:
+            i+=1
+            if file.lower().endswith(('.jpg', '.jpeg', '.png')):
                 
-    def compression_code(self, old_pic, new_pic):
+                old_pic = src_directory + "/" + file
+                new_pic = dest_directory + "/" + file
+                
+                img = Image.open(old_pic)
+                self.image_width = img.width
+                self.compress_width = self.image_width 
+                
+                self.dir_quality_current_value()  
+                
+                total_images = len(files)
+                images_done = i
+                percentage = int((images_done/total_images)*100)
+                self.compression_code(old_pic, new_pic, self.compress_width)
+                
+            else:
+                continue  
+            
+        self.statusBar.showMessage("Message : Compressed " + str(percentage) + "%") 
+        
+    def compression_code(self, old_pic, new_pic, mywidth):
         try:
             img = Image.open(old_pic)
-            mywidth = self.compress_width
             wpercent = (mywidth/float(img.size[0]))
             hsize = int((float(img.size[1])*float(wpercent)))
             img = img.resize((mywidth,hsize), PIL.Image.LANCZOS)
             img.save(new_pic)
         except Exception as e:
-            self.statusBar.showMessage("Message : "+e) 
+            self.statusBar.showMessage("Message : "+str(e)) 
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)
